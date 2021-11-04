@@ -11,108 +11,110 @@ effectGainedRegEx = re.compile(r"^(?P<type>(?:26))\|(?P<timestamp>(?:[^|]*))\|(?
 effectLostRegEx = re.compile(r"^(?P<type>(?:30))\|(?P<timestamp>(?:[^|]*))\|(?P<effectId>(?:[^|]*))\|(?P<effect>(?:[^|]*))\|(?:[^|]*\|)(?P<sourceId>(?:[^|]*))\|(?P<source>(?:[^|]*))\|(?P<targetId>(?:[^|]*))\|(?P<target>(?:[^|]*))\|(?P<count>(?:[^|]*))\|")
 instanceRegEx = re.compile(r"^(?P<type>(?:33))\|(?P<timestamp>(?:[^|]*))\|(?P<instance>(?:[^|]*))\|(?P<command>(?:[^|]*))\|(?P<data0>(?:[^|]*))\|(?P<data1>(?:[^|]*))\|(?P<data2>(?:[^|]*))\|(?P<data3>(?:[^|]*))\|")
 
-def convertString2Date(string):
-	return datetime.strptime(string[:-7], '%Y-%m-%dT%H:%M:%S.%f')
+
+def convert_string_2_date(string):
+    return datetime.strptime(string[:-7], '%Y-%m-%dT%H:%M:%S.%f')
+
 
 class EventType(Enum):
-	START_CASTING = auto()
-	ABILITY = auto()
-	DEATH = auto()
-	EFFECT_GAINED = auto()
-	EFFECT_LOST = auto()
-	INSTANCE = auto()
-	UNREAD = auto()
+    START_CASTING = auto()
+    ABILITY = auto()
+    DEATH = auto()
+    EFFECT_GAINED = auto()
+    EFFECT_LOST = auto()
+    INSTANCE = auto()
+    UNREAD = auto()
+
 
 class InstanceEventType(Enum):
-	INIT = '40000001'
-	WIPE = '40000005'
-	CLEAR = '40000003'
-	RESET = '40000010'
-	IRRELEVENT = auto()
-	
+    INIT = '40000001'
+    WIPE = '40000005'
+    CLEAR = '40000003'
+    RESET = '40000010'
+    IRRELEVANT = auto()
+
 
 class NetworkLineEvent:
-	"""Describes what happened on a line"""
+    """Describes what happened on a line"""
 
-	type = EventType.UNREAD
-	timestamp = datetime(9999,12,31)
-	source = ""
-	target = ""
-	name = ""
-	instanceType = InstanceEventType.IRRELEVENT
-	
-	def __init__(self, line, readsStartCast = False, readsAbility = False, readsDeath = False, readsEffectGained = False, readsEffectLost = False, readsInstance = False):
-		isRead = False
-		if readsStartCast and not isRead:
-			matches= startCastRegEx.match(line)
-			if matches:
-				self.type = EventType.START_CASTING
-				self.timestamp = convertString2Date(matches.group('timestamp'))
-				self.source = matches.group('source')
-				self.target = matches.group('target')
-				self.name = matches.group('ability')
-				isRead = True
-		if readsAbility and not isRead:
-			matches= abilityRegEx.match(line)
-			if matches:
-				self.type = EventType.ABILITY
-				self.timestamp = convertString2Date(matches.group('timestamp'))
-				self.source = matches.group('source')
-				self.target = matches.group('target')
-				self.name = matches.group('ability')
-				isRead = True
-		if readsDeath and not isRead:
-			matches= deathRegEx.match(line)
-			if matches:
-				self.type = EventType.DEATH
-				self.timestamp = convertString2Date(matches.group('timestamp'))
-				self.source = matches.group('source')
-				self.target = matches.group('target')
-				isRead = True
-		if readsEffectGained and not isRead:
-			matches= effectGainedRegEx.match(line)
-			if matches:
-				self.type = EventType.EFFECT_GAINED
-				self.timestamp = convertString2Date(matches.group('timestamp'))
-				self.source = matches.group('source')
-				self.target = matches.group('target')
-				self.name = matches.group('effect')
-				isRead = True
-		if readsEffectLost and not isRead:
-			matches= effectLostRegEx.match(line)
-			if matches:
-				self.type = EventType.EFFECT_GAINED
-				self.timestamp = convertString2Date(matches.group('timestamp'))
-				self.source = matches.group('source')
-				self.target = matches.group('target')
-				self.name = matches.group('effect')
-				isRead = True
-		if readsInstance and not isRead:
-			matches= instanceRegEx.match(line)
-			if matches:
-				command = matches.group('command')
-				if command in [e.value for e in InstanceEventType]:
-					self.type = EventType.INSTANCE
-					self.timestamp = convertString2Date(matches.group('timestamp'))
-					self.name = matches.group('instance')
-					self.instanceType = InstanceEventType(command)
-				else:
-					self.type = EventType.UNREAD
-					self.instanceType = InstanceEventType.IRRELEVENT
-				isRead = True
+    type = EventType.UNREAD
+    timestamp = datetime(9999, 12, 31)
+    source = ""
+    target = ""
+    name = ""
+    instanceType = InstanceEventType.IRRELEVENT
 
-	def __repr__(self):
-		return 	"============== LINE CONTENT ==============\n" \
-				"type = %s \n" \
-				"timestamp = %s \n" \
-				"source = %s \n" \
-				"target = %s \n" \
-				"name = %s \n" \
-				"instanceType = %s" % (self.type.name, self.timestamp, self.source, self.target, self.name, self.instanceType.name)
+    def __init__(self, line, reads_start_cast=False, reads_ability=False, reads_death=False, reads_effect_gained=False,
+                 reads_effect_lost=False, reads_instance=False):
+        is_read = False
+        if reads_start_cast and not is_read:
+            matches = startCastRegEx.match(line)
+            if matches:
+                self.type = EventType.START_CASTING
+                self.timestamp = convert_string_2_date(matches.group('timestamp'))
+                self.source = matches.group('source')
+                self.target = matches.group('target')
+                self.name = matches.group('ability')
+                is_read = True
+        if reads_ability and not is_read:
+            matches = abilityRegEx.match(line)
+            if matches:
+                self.type = EventType.ABILITY
+                self.timestamp = convert_string_2_date(matches.group('timestamp'))
+                self.source = matches.group('source')
+                self.target = matches.group('target')
+                self.name = matches.group('ability')
+                is_read = True
+        if reads_death and not is_read:
+            matches = deathRegEx.match(line)
+            if matches:
+                self.type = EventType.DEATH
+                self.timestamp = convert_string_2_date(matches.group('timestamp'))
+                self.source = matches.group('source')
+                self.target = matches.group('target')
+                is_read = True
+        if reads_effect_gained and not is_read:
+            matches = effectGainedRegEx.match(line)
+            if matches:
+                self.type = EventType.EFFECT_GAINED
+                self.timestamp = convert_string_2_date(matches.group('timestamp'))
+                self.source = matches.group('source')
+                self.target = matches.group('target')
+                self.name = matches.group('effect')
+                is_read = True
+        if reads_effect_lost and not is_read:
+            matches = effectLostRegEx.match(line)
+            if matches:
+                self.type = EventType.EFFECT_GAINED
+                self.timestamp = convert_string_2_date(matches.group('timestamp'))
+                self.source = matches.group('source')
+                self.target = matches.group('target')
+                self.name = matches.group('effect')
+                is_read = True
+        if reads_instance and not is_read:
+            matches = instanceRegEx.match(line)
+            if matches:
+                command = matches.group('command')
+                if command in [e.value for e in InstanceEventType]:
+                    self.type = EventType.INSTANCE
+                    self.timestamp = convert_string_2_date(matches.group('timestamp'))
+                    self.name = matches.group('instance')
+                    self.instance_type = InstanceEventType(command)
+                else:
+                    self.type = EventType.UNREAD
+                    self.instance_type = InstanceEventType.IRRELEVENT
 
-	def __lt__(self, other):
-		return self.timestamp < other.timestamp
-		
-	def __eq__(self, other):
-		return self.timestamp == other.timestamp
+    def __repr__(self):
+        return "============== LINE CONTENT ==============\n" \
+               "type = %s \n" \
+               "timestamp = %s \n" \
+               "source = %s \n" \
+               "target = %s \n" \
+               "name = %s \n" \
+               "instance_type = %s" % (self.type.name, self.timestamp, self.source, self.target, self.name, self.instance_type.name)
 
+    def __lt__(self, other):
+        return self.timestamp < other.timestamp
+
+    def __eq__(self, other):
+        return self.timestamp == other.timestamp
