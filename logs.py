@@ -9,10 +9,17 @@ import imageio
 #logFolder = "D:\\PikCeLL\\Documents\\TEST"
 logFolder = "D:\\PikCeLL\\Documents\\Logs_FF"
 
-fightID = "80037586"
+# TEA
+#fightID = "80037586"
+#phaseColors = ['b','r','y','g']
+#phases = [2.20,5.5,11.6,18.83]
+#phaseNames = ["LL", "BJCC", "Alex Prime", "Perfect"]
+
+# UCoB
+fightID = "80037569"
 phaseColors = ['b','r','y','g']
-phases = [2.20,5.5,11.6,18.83]
-phaseNames = ["LL", "BJCC", "Alex Prime", "Perfect"]
+phases = [2.3,5,5,5]
+phaseNames = ["Twintania", "Nael", "Bahamut", "Golden"]
 
 wipeRegExp = re.compile(r"33\|([0-9]*)-([0-9]*)-([0-9]*)T([0-9]*):([0-9]*):([0-9]*).*\|"+fightID+"\|40000005.*")
 clearRegExp = re.compile(r"33\|([0-9]*)-([0-9]*)-([0-9]*)T([0-9]*):([0-9]*):([0-9]*).*\|"+fightID+"\|40000003.*")
@@ -86,7 +93,7 @@ def parseFolder():
 		else:
 			plt.plot(j, dict.peekitem(j)[1][0], color='blue', marker='o', markersize=5)
 		t += datetime.timedelta(seconds=int(dict.peekitem(j)[1][0]*60))
-		plt.title(f"TEA prog : {j+1} pulls ({t} combat time)")
+		plt.title(f"UCoB prog : {j+1} pulls ({t} combat time)")
 		
 		# Legend
 		patches = []
