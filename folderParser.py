@@ -50,7 +50,7 @@ def parse_file(file, encounter):
             if read_line.type == EventType.INSTANCE:
                 if (read_line.instanceType == InstanceEventType.RESET or read_line.instanceType == InstanceEventType.INIT) and read_line.name == encounter.id:
                     is_pull_about_to_start = True
-                elif read_line.instanceType == InstanceEventType.WIPE and read_line.name == encounter.id:
+                elif (read_line.instanceType == InstanceEventType.WIPE or read_line.instanceType == InstanceEventType.TIME_OUT) and read_line.name == encounter.id:
                     current_pull.end = read_line.timestamp
                     if current_pull.start < current_pull.end:
                         pull_set.add(current_pull)
@@ -81,4 +81,4 @@ def parse_folder(folder, encounter):
     return pull_set
 
 
-print(parse_folder("D:\\PikCeLL\\Documents\\Logs_FF", Encounter('80037569', 'UCoB', ["Twintania", "Nael Deus Darnus", "Bahamut Prime"])))
+# print(parse_folder("D:\\PikCeLL\\Documents\\Logs_FF", Encounter('80037569', 'UCoB', ["Twintania", "Nael Deus Darnus", "Bahamut Prime"])))

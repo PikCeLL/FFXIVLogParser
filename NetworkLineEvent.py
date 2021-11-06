@@ -31,6 +31,7 @@ class InstanceEventType(Enum):
     WIPE = '40000005'
     CLEAR = '40000003'
     RESET = '40000010'
+    TIME_OUT = '80000003'
     IRRELEVANT = auto()
 
 
@@ -42,7 +43,7 @@ class NetworkLineEvent:
     source = ""
     target = ""
     name = ""
-    instanceType = InstanceEventType.IRRELEVENT
+    instanceType = InstanceEventType.IRRELEVANT
 
     def __init__(self, line, reads_start_cast=False, reads_ability=False, reads_death=False, reads_effect_gained=False,
                  reads_effect_lost=False, reads_instance=False):
@@ -102,7 +103,7 @@ class NetworkLineEvent:
                     self.instance_type = InstanceEventType(command)
                 else:
                     self.type = EventType.UNREAD
-                    self.instance_type = InstanceEventType.IRRELEVENT
+                    self.instance_type = InstanceEventType.IRRELEVANT
 
     def __repr__(self):
         return "============== LINE CONTENT ==============\n" \
