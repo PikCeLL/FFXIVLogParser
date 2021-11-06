@@ -100,10 +100,10 @@ class NetworkLineEvent:
                     self.type = EventType.INSTANCE
                     self.timestamp = convert_string_2_date(matches.group('timestamp'))
                     self.name = matches.group('instance')
-                    self.instance_type = InstanceEventType(command)
+                    self.instanceType = InstanceEventType(command)
                 else:
                     self.type = EventType.UNREAD
-                    self.instance_type = InstanceEventType.IRRELEVANT
+                    self.instanceType = InstanceEventType.IRRELEVANT
 
     def __repr__(self):
         return "============== LINE CONTENT ==============\n" \
@@ -112,7 +112,7 @@ class NetworkLineEvent:
                "source = %s \n" \
                "target = %s \n" \
                "name = %s \n" \
-               "instance_type = %s" % (self.type.name, self.timestamp, self.source, self.target, self.name, self.instance_type.name)
+               "instanceType = %s" % (self.type.name, self.timestamp, self.source, self.target, self.name, self.instanceType.name)
 
     def __lt__(self, other):
         return self.timestamp < other.timestamp
