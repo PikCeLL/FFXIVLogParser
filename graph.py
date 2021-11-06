@@ -8,7 +8,7 @@ logFolder = "D:\\PikCeLL\\Documents\\Logs_FF"
 TEA = Encounter('80037586', 'TEA', ["Living Liquid", "Cruise Chaser", "Alexander Prime", "Perfect Alexander"])
 UCoB = Encounter('80037569', 'UCoB', ["Twintania", "Nael Deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"])
 
-phaseColors = ['g', 'r', 'b', 'y', 'lime', 'lime']
+phaseColors = ['g', 'r', 'b', 'chocolate', 'y']
 
 
 def create_graph(folder, encounter):
