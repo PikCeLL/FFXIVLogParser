@@ -34,7 +34,9 @@ class Encounter:
     humanReadableName = 'boss'
     targetSplit = []
 
-    def __init__(self, id, name, target_split=[]):
+    def __init__(self, id, name, target_split=None):
+        if target_split is None:
+            target_split = []
         self.id = id
         self.humanReadableName = name
         self.targetSplit = target_split
