@@ -52,6 +52,7 @@ def parse_file(file, encounter):
             if read_line.type == EventType.INSTANCE:
                 if (read_line.instanceType == InstanceEventType.RESET or read_line.instanceType == InstanceEventType.INIT) and read_line.name == encounter.id:
                     is_pull_about_to_start = True
+                    current_pull = Pull()
                 elif (read_line.instanceType == InstanceEventType.WIPE or read_line.instanceType == InstanceEventType.TIME_OUT) and read_line.name == encounter.id:
                     current_pull.end = read_line.timestamp
                     if current_pull.start < current_pull.end:
@@ -67,7 +68,7 @@ def parse_file(file, encounter):
                 if is_pull_about_to_start and read_line.target == encounter.targetSplit[0]:
                     current_pull.start = read_line.timestamp
                     is_pull_about_to_start = False
-                if current_pull.phase + 1 < len(encounter.targetSplit) and (read_line.target == encounter.targetSplit[current_pull.phase + 1] and read_line.source != read_line.target):
+                elif current_pull.phase + 1 < len(encounter.targetSplit) and (read_line.target == encounter.targetSplit[current_pull.phase + 1] and read_line.source != read_line.target):
                     current_pull.phase = current_pull.phase + 1
         return pull_set
 
@@ -84,7 +85,7 @@ def parse_folder(folder, encounter):
 
 
 def main():
-    print(parse_file("D:\\PikCeLL\\Documents\\Logs_FF\\Network_22106_20211105.log", Encounter('80037569', 'UCoB', ["Twintania", "Nael Deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"])))
+    print(parse_folder("D:\\PikCeLL\\Documents\\Logs_FF", Encounter('80037569', 'UCoB', ["Twintania", "Nael deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"])))
 
 
 if __name__ == "__main__":

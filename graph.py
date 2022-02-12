@@ -6,7 +6,7 @@ from datetime import timedelta
 logFolder = "D:\\PikCeLL\\Documents\\Logs_FF"
 
 TEA = Encounter('80037586', 'TEA', ["Living Liquid", "Cruise Chaser", "Alexander Prime", "Perfect Alexander"])
-UCoB = Encounter('80037569', 'UCoB', ["Twintania", "Nael Deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"])
+UCoB = Encounter('80037569', 'UCoB', ["Twintania", "Nael deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"])
 
 phaseColors = ['g', 'r', 'b', 'm', 'gold']
 
