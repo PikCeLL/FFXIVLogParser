@@ -33,13 +33,15 @@ class Encounter:
     id = '00000000'
     humanReadableName = 'boss'
     targetSplit = []
+    phaseLabels = []
 
-    def __init__(self, id, name, target_split=None):
+    def __init__(self, id, name, target_split=None, phase_labels=None):
         if target_split is None:
             target_split = []
         self.id = id
         self.humanReadableName = name
         self.targetSplit = target_split
+        self.phaseLabels = phase_labels
 
 
 def parse_file(file, encounter):
