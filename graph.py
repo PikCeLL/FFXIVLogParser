@@ -8,6 +8,7 @@ logFolder = "D:\\PikCeLL\\Documents\\Logs_FF"
 
 TEA = Encounter('80037586', 'TEA', ["Living Liquid", "Cruise Chaser", "Alexander Prime", "Perfect Alexander"], ["LL", "BJCC", "Prime", "Perfect"])
 UCoB = Encounter('80037569', 'UCoB', ["Twintania", "Nael deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"], ["Twin", "Nael", "Trios", "Adds", "Golden"])
+UwU = Encounter('80037573', 'UwU', ["Garuda", "Ifrit", "Titan", "The Ultima Weapon"], ["Garuda", "Ifrit", "Titan", "Ultima"] )
 
 phaseColors = ['g', 'r', 'b', 'm', 'gold']
 
