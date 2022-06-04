@@ -2,6 +2,7 @@ from NetworkLineEvent import NetworkLineEvent, EventType, InstanceEventType
 from sortedcontainers import SortedSet
 from datetime import datetime
 import os
+import glob
 
 
 class Pull:
@@ -78,16 +79,17 @@ def parse_file(file, encounter):
 def parse_folder(folder, encounter):
     pull_set = SortedSet()
     i = 1
-    total_files = len(os.listdir(folder))
-    for filename in os.listdir(folder):
+    total_files = len(glob.glob(os.path.join(folder, '*.log')))
+    for file in glob.glob(os.path.join(folder, '*.log')):
         print(f"Parsing file {i} of {total_files}")
         i += 1
-        pull_set = pull_set.union(parse_file(folder + "\\" + filename, encounter))
+        pull_set = pull_set.union(parse_file(file, encounter))
     return pull_set
 
 
+# For testing purposes, prints out details about each pull in the folder
 def main():
-    print(parse_folder("D:\\PikCeLL\\Documents\\Logs_FF", Encounter('80037569', 'UCoB', ["Twintania", "Nael deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"])))
+    print(parse_folder("D:\\PikCeLL\\Documents\\TEST", Encounter('8003759A', 'DSR', ["King Thordan", "Nidhogg", "Right Eye", "Ser Charibert", "King Thordan", "Hraesvelgr", "Dragon-king Thordan"], ["King Thordan", "Nidhogg", "Eyes", "Rewind!", "King Thordan II", "Dragons", "The Dragon King"])))
 
 
 if __name__ == "__main__":

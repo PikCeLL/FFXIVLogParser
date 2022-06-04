@@ -3,14 +3,21 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from datetime import timedelta
 
+# ====Logs Folder====
 # logFolder = "D:\\PikCeLL\\Documents\\TEST"
-logFolder = "D:\\PikCeLL\\Documents\\Logs_FF"
+logFolder = "D:\\PikCeLL\\Documents\\Logs_FF_old"
 
+# ====ULTIMATES====
 TEA = Encounter('80037586', 'TEA', ["Living Liquid", "Cruise Chaser", "Alexander Prime", "Perfect Alexander"], ["LL", "BJCC", "Prime", "Perfect"])
 UCoB = Encounter('80037569', 'UCoB', ["Twintania", "Nael deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"], ["Twin", "Nael", "Trios", "Adds", "Golden"])
 UwU = Encounter('80037573', 'UwU', ["Garuda", "Ifrit", "Titan", "The Ultima Weapon"], ["Garuda", "Ifrit", "Titan", "Ultima"] )
+DSR = Encounter('8003759A', 'DSR', ["King Thordan", "Nidhogg", "Right Eye", "Ser Charibert", "King Thordan", "Hraesvelgr", "Dragon-king Thordan"], ["King Thordan", "Nidhogg", "Eyes", "Rewind!", "King Thordan II", "Dragons", "The Dragon King"])
 
-phaseColors = ['g', 'r', 'b', 'm', 'gold']
+# ====SAVAGES====
+# Empty for now, not as relevant
+
+# ====Phase colors====
+phaseColors = ['b', 'r', 'g', 'y', 'gold', 'm', 'black']
 
 
 def create_graph(folder, encounter):
@@ -45,4 +52,5 @@ def create_graph(folder, encounter):
     plt.show()
 
 
-create_graph(logFolder, UCoB)
+# Actual call
+create_graph(logFolder, TEA)
