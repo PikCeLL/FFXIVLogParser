@@ -1,7 +1,7 @@
 # FFXIVLogParser
 Make plots of FFXIV raid prog
 
-![Result of running this project on my TEA prog](.\Examples\TEA_prog.png "TEA Prog")
+![Result of running this project on my TEA prog](/Examples/TEA_prog.png "TEA Prog")
 
 ## Requirements:
 - Python 3 (maybe less? idk am not a python boi)
