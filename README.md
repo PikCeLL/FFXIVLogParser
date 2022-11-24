@@ -11,6 +11,7 @@ Make plots of FFXIV raid prog
 
 ## Usage:
 Get the requirements right, edit [this file](graph.py) with the folder where your logs are[^1] and which fight you want to graph[^2]. Then run that same file. After some hardcore parsing (can be _long_ if the folder is big) the graph should show up.
+This will probably only work properly if all your logs on a fight were done with your game in english as the phase splitting is based on the various bosses' names. Might improve on that someday, maybe not. Until then you can edit the bosses' names in [this file](graph.py) to match your language or any in game change (Nael's name got its "deus" uncapitalized when Endwalker came out for some reason).
 
 ## Dafuk iz dis
 I rewrote a simplified (and hopefully somewhat expendable) parsing based on the description of what a log contained I found [here](https://github.com/quisquous/cactbot/blob/main/docs/LogGuide.md).
