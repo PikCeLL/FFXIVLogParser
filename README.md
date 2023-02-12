@@ -18,6 +18,9 @@ Then using ~~my immense Python knowledge~~ Google I plotted the pull data in a w
 
 I'm aware that the code is probably not very idiomatic or clever, but it works for my use. One obvious improvement I think about is making it so one can use the tool without having to edit a file, with command line arguments to chose which fight to plot.
 
+## Known issues
+Fights with checkpoints are not handled well. Both phases are considered as one. The end of the first phase isn't counted as a clear of this phase because the whole fight isn't over. Overall this makes the tool not well suited for such fights.
+
 [^1]: just edit the `logFolder` variable
 
 [^2]: If you fight is in the preset variables, you can use those in the `create_graph()` call at the bottom, else you will need to fill en Encounter objet from scratch.
