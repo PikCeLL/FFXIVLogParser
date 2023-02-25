@@ -8,7 +8,7 @@ inputElement.addEventListener("click", handleFiles);
 function handleFiles() {
   const files = document.getElementById('input');
   for (const file of files.files) {
-    console.log(reader.readFile(file, true));
+    console.log(reader.readFile(file));
   }
 
   var canvas = document.getElementById('tutorial');

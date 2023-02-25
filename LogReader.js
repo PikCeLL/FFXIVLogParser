@@ -60,17 +60,68 @@ export class Pull {
     }
 }
 
+class DefaultPullProcessor {
+    #currentPull = false;
+    #pulls = new Array();
+
+    /**
+     * Readies a new pull for processing
+     * @param {String} fightID 
+     */
+    createNewPull(fightID) {
+        this.#currentPull = new Pull(fightID);
+    }
+
+    /**
+     * Starts the pull
+     * @param {Date} startTime 
+     */
+    startPull(startTime) {
+        this.#currentPull.start = startTime;
+    }
+
+    /**
+     * Ends the pull as a wipe
+     * @param {Date} endTime 
+     */
+    wipePull(endTime) {
+        this.#currentPull.end = endTime;
+        this.#pulls.push(this.#currentPull);
+        this.#currentPull = null;
+    }
+
+    /**
+     * Ends the pull as a clear
+     * @param {Date} endTime 
+     */
+    clearPull(endTime) {
+        this.#currentPull.setCleared();
+        this.wipePull(endTime);
+    }
+
+    /**
+     * Processes an event
+     * @param {netEvt.NetworkLineEvent} event 
+     */
+    processEvent(event) {
+        this.#currentPull.addEvent(event);
+    }
+
+    get result() {
+        return this.#pulls;
+    }
+}
+
 /**
- * Returns an arry of Pulls that may contain individual events. Pulls are ordered as found in the file (should be chronological if file is untempered).
+ * Returns whatever the pull processor provides after parsing the whole file. The default is a list of {Pull} objects containing every event
  * @param {File} file
- * @param {boolean} recordEvents
+ * @param pullProcessor 
  */
-export function readFile(file, recordEvents = false) {
+export function readFile(file, pullProcessor = new DefaultPullProcessor()) {
     console.log(`Reading ${file.name}`);
 
-    const pulls = new Array();
-    var currentPull = null;
     var isPullAboutToStart = false;
+    var startTime = false;
 
     const reader = new FileReader();
     reader.onload = function(progressEvent){
@@ -80,32 +131,29 @@ export function readFile(file, recordEvents = false) {
             if (event.type === netEvt.EventType.INSTANCE) {
                 if (event.instanceType.isReset() || event.instanceType.equals(netEvt.InstanceEventType.INIT)) {
                     isPullAboutToStart = true;
-                    currentPull = new Pull(event.name);
-                } else if (currentPull !== null && event.instanceType.equals(netEvt.InstanceEventType.WIPE) || event.instanceType.equals(netEvt.InstanceEventType.TIME_OUT)) {
-                    if (currentPull.start < event.timestamp) {
-                        currentPull.end = event.timestamp;
-                        pulls.push(currentPull);
-                        currentPull = null;
+                    startTime = false;
+                    pullProcessor.createNewPull(event.name);
+                } else if (startTime !== false && event.instanceType.equals(netEvt.InstanceEventType.WIPE) || event.instanceType.equals(netEvt.InstanceEventType.TIME_OUT)) {
+                    if (startTime < event.timestamp) {
+                        startTime = false;
+                        pullProcessor.wipePull(event.timestamp);
                     }
-                } else if (currentPull !== null && event.instanceType.equals(netEvt.InstanceEventType.CLEAR)) {
-                    if (currentPull.start < event.timestamp) {
-                        currentPull.end = event.timestamp;
-                        currentPull.setCleared();
-                        pulls.push(currentPull);
-                        currentPull = null;
+                } else if (startTime !== false && event.instanceType.equals(netEvt.InstanceEventType.CLEAR)) {
+                    if (startTime < event.timestamp) {
+                        startTime = false;
+                        pullProcessor.clearPull(event.timestamp);
                     }
                 }
-            } else if (currentPull !== null && event.type === netEvt.EventType.ABILITY) {
-                if (isPullAboutToStart && event.isSourcePlayer() && !event.isAoE() && !event.isTargetPlayer()) {
-                    isPullAboutToStart = false;
-                    currentPull.start = event.timestamp;
-                }
+            } else if (event.type === netEvt.EventType.ABILITY && isPullAboutToStart && event.isSourcePlayer() && !event.isAoE() && !event.isTargetPlayer()) {
+                isPullAboutToStart = false;
+                startTime = event.timestamp;
+                pullProcessor.startPull(event.timestamp);
             }
-            if (recordEvents && currentPull !== null && event.timestamp >= currentPull.start && event.type != netEvt.EventType.UNREAD) {
-                currentPull.addEvent(event);
+            if (startTime !== false && event.timestamp >= startTime && event.type != netEvt.EventType.UNREAD) {
+                pullProcessor.processEvent(event);
             }
         }
     };
     reader.readAsText(file);
-    return pulls;
+    return pullProcessor.result;
 }
