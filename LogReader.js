@@ -61,7 +61,7 @@ export class Pull {
 }
 
 class DefaultPullProcessor {
-    #currentPull = false;
+    #currentPull = null;
     #pulls = new Array();
 
     /**

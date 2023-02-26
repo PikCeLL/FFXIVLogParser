@@ -1,4 +1,5 @@
 import * as reader from "./LogReader.js";
+import * as enc from "./Encounters.js";
 
 "use strict";
 
@@ -8,7 +9,7 @@ inputElement.addEventListener("click", handleFiles);
 function handleFiles() {
   const files = document.getElementById('input');
   for (const file of files.files) {
-    console.log(reader.readFile(file));
+    console.log(reader.readFile(file, new enc.PhasedPullProcessor(enc.UCoB)));
   }
 
   var canvas = document.getElementById('tutorial');
