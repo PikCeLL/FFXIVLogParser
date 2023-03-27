@@ -113,47 +113,42 @@ class DefaultPullProcessor {
 }
 
 /**
- * Returns whatever the pull processor provides after parsing the whole file. The default is a list of {Pull} objects containing every event
- * @param {File} file
+ * Returns whatever the pull processor provides after parsing a log. The default is a list of {Pull} objects containing every event
+ * @param {String} log
  * @param pullProcessor 
  */
-export function readFile(file, pullProcessor = new DefaultPullProcessor()) {
-    console.log(`Reading ${file.name}`);
+export function readLog(log, pullProcessor = new DefaultPullProcessor()) {
 
     var isPullAboutToStart = false;
     var startTime = false;
 
-    const reader = new FileReader();
-    reader.onload = function(progressEvent){
-        var fileContentArray = this.result.split(/\r\n|\n/);
-        for(var line = 0; line < fileContentArray.length-1; line++){
-            const event = new netEvt.NetworkLineEvent(fileContentArray[line]);
-            if (event.type === netEvt.EventType.INSTANCE) {
-                if (event.instanceType.isReset() || event.instanceType.equals(netEvt.InstanceEventType.INIT)) {
-                    isPullAboutToStart = true;
+    var fileContentArray = log.split(/\r\n|\n/);
+    for(var line = 0; line < fileContentArray.length-1; line++){
+        const event = new netEvt.NetworkLineEvent(fileContentArray[line]);
+        if (event.type === netEvt.EventType.INSTANCE) {
+            if (event.instanceType.isReset() || event.instanceType.equals(netEvt.InstanceEventType.INIT)) {
+                isPullAboutToStart = true;
+                startTime = false;
+                pullProcessor.createNewPull(event.name);
+            } else if (startTime !== false && event.instanceType.equals(netEvt.InstanceEventType.WIPE) || event.instanceType.equals(netEvt.InstanceEventType.TIME_OUT)) {
+                if (startTime < event.timestamp) {
                     startTime = false;
-                    pullProcessor.createNewPull(event.name);
-                } else if (startTime !== false && event.instanceType.equals(netEvt.InstanceEventType.WIPE) || event.instanceType.equals(netEvt.InstanceEventType.TIME_OUT)) {
-                    if (startTime < event.timestamp) {
-                        startTime = false;
-                        pullProcessor.wipePull(event.timestamp);
-                    }
-                } else if (startTime !== false && event.instanceType.equals(netEvt.InstanceEventType.CLEAR)) {
-                    if (startTime < event.timestamp) {
-                        startTime = false;
-                        pullProcessor.clearPull(event.timestamp);
-                    }
+                    pullProcessor.wipePull(event.timestamp);
                 }
-            } else if (event.type === netEvt.EventType.ABILITY && isPullAboutToStart && event.isSourcePlayer() && !event.isAoE() && !event.isTargetPlayer()) {
-                isPullAboutToStart = false;
-                startTime = event.timestamp;
-                pullProcessor.startPull(event.timestamp);
+            } else if (startTime !== false && event.instanceType.equals(netEvt.InstanceEventType.CLEAR)) {
+                if (startTime < event.timestamp) {
+                    startTime = false;
+                    pullProcessor.clearPull(event.timestamp);
+                }
             }
-            if (startTime !== false && event.timestamp >= startTime && event.type != netEvt.EventType.UNREAD) {
-                pullProcessor.processEvent(event);
-            }
+        } else if (event.type === netEvt.EventType.ABILITY && isPullAboutToStart && event.isSourcePlayer() && !event.isAoE() && !event.isTargetPlayer()) {
+            isPullAboutToStart = false;
+            startTime = event.timestamp;
+               pullProcessor.startPull(event.timestamp);
         }
-    };
-    reader.readAsText(file);
+        if (startTime !== false && event.timestamp >= startTime && event.type != netEvt.EventType.UNREAD) {
+            pullProcessor.processEvent(event);
+        }
+    }
     return pullProcessor.result;
 }

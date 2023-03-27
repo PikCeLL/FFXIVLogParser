@@ -7,6 +7,7 @@ export const TEA = ['TEA', '80037586', ["Living Liquid", "Cruise Chaser", "Alexa
 export const UCoB = ['UCoB', '80037569', ["Twintania", "Nael Deus Darnus", "Bahamut Prime", "Twintania", "Bahamut Prime"], ["Twin", "Nael", "Trios", "Adds", "Golden"]];
 export const UwU = ['UwU', '80037573', ["Garuda", "Ifrit", "Titan", "The Ultima Weapon"], ["Garuda", "Ifrit", "Titan", "Ultima"]];
 export const DSR = ['DSR', '8003759A', ["King Thordan", "Nidhogg", "Right Eye", "Ser Charibert", "King Thordan", "Hraesvelgr", "Dragon-king Thordan"], ["King Thordan", "Nidhogg", "Eyes", "Rewind!", "King Thordan II", "Dragons", "The Dragon King"]];
+export const TOP = ['TOP', 'XXXXXXXX', [], []];
 
 
 export class PhasedPullProcessor {
@@ -24,7 +25,7 @@ export class PhasedPullProcessor {
      * @param {String} fightID 
      */
     createNewPull(fightID) {
-        if (fightID == this.#encounter[1]) {
+        if (fightID === this.#encounter[1]) {
             this.#currentPull = [new Date(1, 1, 1), 0, 0, false];
         } else {
             this.#currentPull = null;
