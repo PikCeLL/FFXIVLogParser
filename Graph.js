@@ -8,24 +8,33 @@ inputElement.addEventListener("click", handleFiles);
 
 function handleFiles() {
     const inputFiles = document.getElementById('input');
-    const results = [];
-    readNextFile(inputFiles.files, 0, results).then(result => console.log(result));
+    const encounter = enc.TEA;
+    const rawResults = [];
+    readNextFile(encounter, inputFiles.files, 0, rawResults).then(result => {
+        console.log(result);
 
-    var canvas = document.getElementById('tutorial');
-    var ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgb(200, 0, 0)';
-    ctx.fillRect(10, 10, 50, 50);
+        const results = new Array(encounter[3].length);
+        for (let i = 0; i < results.length; i++) {
+            results[i] = [];
+        }
+        var index = 0;
 
-    ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
-    ctx.fillRect(30, 30, 50, 50);
+        rawResults.forEach(log => {
+            log.forEach(pull => {
+                results[pull[2]].push([index, pull[1]]);
+                ++index;
+            });
+        });
+        console.log(results);
+    }).catch(error => console.log(error));
 }
 
-function readFile(file) {
+function readFile(file, encounter) {
     return new Promise((resolve, reject) => {
         const fr = new FileReader();
 
         fr.onload = () => {
-            resolve(reader.readLog(fr.result, new enc.PhasedPullProcessor(enc.TEA)));
+            resolve(reader.readLog(fr.result, new enc.PhasedPullProcessor(encounter)));
         };
 
         fr.onerror = () => {
@@ -36,16 +45,22 @@ function readFile(file) {
     });
 }
 
-function readNextFile(files, index, results) {
+function readNextFile(encounter, files, index, results) {
     if (index >= files.length) {
         return Promise.resolve(results);
     }
 
-    return readFile(files[index]).then(result => {
+    return readFile(files[index], encounter).then(result => {
         if (result.length != 0) {
-            results.push(result);
+            // We sort starting from the end because with the default log name the files are parsed in reverse order (at least on Firefox). Still a complete sort just in case
+            for (let i = results.length ; i >= 0 ; --i) {
+                if (((i === 0) || (results[i - 1][0][0] < result[0][0])) && ((i === results.length) || (results[i][0][0] >= result[0][0]))) {
+                    results.splice(i, 0, result);
+                    break;
+                }
+            }
         }
-        return readNextFile(files, index + 1, results);
+        return readNextFile(encounter, files, index + 1, results);
     }).catch(error => {
         return Promise.reject(error);
     }).finally(console.log("File " + index + " read."));
