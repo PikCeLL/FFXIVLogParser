@@ -6,65 +6,112 @@ import * as enc from "./Encounters.js";
 const inputElement = document.getElementById("button");
 inputElement.addEventListener("click", handleFiles);
 
+const ctx = document.getElementById('myChart');
+const chart = new Chart(ctx, {
+    type: 'scatter',
+    data: [],
+    options: {
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom',
+                title: {
+                    display: true,
+                    text: 'Pull #'
+                }
+            },
+            y: {
+                type: 'linear',
+                position: 'left',
+                title: {
+                    display: true,
+                    text: 'Pull duration (min)'
+                }
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return context.raw.tooltip;
+                    }
+                }
+            }
+        }
+    }
+});
+
 function handleFiles() {
     const inputFiles = document.getElementById('input');
-    const encounter = enc.TEA;
+    const fightValue = document.getElementById('fights').value;
+    let encounter = enc.UCoB;
+    switch (fightValue) {
+        case "ucob":
+            encounter = enc.UCoB;
+            break;
+        case "uwu":
+            encounter = enc.UwU;
+            break;
+        case "tea":
+            encounter = enc.TEA;
+            break;
+        case "dsr":
+            encounter = enc.DSR;
+            break;
+        case "top":
+            encounter = enc.TOP;
+            break;
+        default:
+            console.log(`${fightValue} doesn't exist!`);
+    }
+
+    document.getElementById('progressBar').max = inputFiles.files.length;
+    document.getElementById('progressBar').value = 0;
+
     readNextFile(encounter, inputFiles.files, 0, []).then(result => {
         const results = new Array(encounter[3].length);
         for (let i = 0; i < results.length; i++) {
             results[i] = { label: encounter[3][i], data: [], parsing: false };
         }
-        var index = 0;
 
+        let index = 0;
+        let combatTime = 0;
         result.forEach(log => {
             log.forEach(pull => {
                 results[pull[2]].data.push({ x: index, y: pull[1] / 60000, tooltip: pull[0] });
+                combatTime += pull[1];
                 ++index;
             });
         });
 
-        const ctx = document.getElementById('myChart');
-
-        new Chart(ctx, {
-            type: 'scatter',
-            data: {
-                datasets: results
-            },
-            options: {
-                scales: {
-                    x: {
-                        type: 'linear',
-                        position: 'bottom',
-                        title: {
-                            display: true,
-                            text: 'Pull #'
-                        }
-                    },
-                    y: {
-                        type: 'linear',
-                        position: 'left',
-                        title: {
-                            display: true,
-                            text: 'Pull duration (min)'
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: encounter[0] + " prog : " + index + " pulls"
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.raw.tooltip;
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        chart.data = { datasets: results };
+        chart.options.plugins.title = {
+            display: true,
+            text: encounter[0] + " prog : " + index + " pulls for " + parseMillisecondsIntoReadableTime(combatTime) + " combat time"
+        };
+        chart.update();
+        console.log(`compteur = ${compteur} || reverseCompteur = ${reverseCompteur}`);
     }).catch(error => console.log(error));
+}
+
+function parseMillisecondsIntoReadableTime(milliseconds) {
+    //Get hours from milliseconds
+    var hours = milliseconds / (1000 * 60 * 60);
+    var absoluteHours = Math.floor(hours);
+    var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+
+    //Get remainder from hours and convert to minutes
+    var minutes = (hours - absoluteHours) * 60;
+    var absoluteMinutes = Math.floor(minutes);
+    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+
+    //Get remainder from minutes and convert to seconds
+    var seconds = (minutes - absoluteMinutes) * 60;
+    var absoluteSeconds = Math.floor(seconds);
+    var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+
+
+    return h + ':' + m + ':' + s;
 }
 
 function readFile(file, encounter) {
@@ -101,5 +148,5 @@ function readNextFile(encounter, files, index, results) {
         return readNextFile(encounter, files, index + 1, results);
     }).catch(error => {
         return Promise.reject(error);
-    }).finally(console.log("File " + index + " read."));
+    }).finally(document.getElementById('progressBar').value = index + 1);
 }
