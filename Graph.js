@@ -90,7 +90,6 @@ function handleFiles() {
             text: encounter[0] + " prog : " + index + " pulls for " + parseMillisecondsIntoReadableTime(combatTime) + " combat time"
         };
         chart.update();
-        console.log(`compteur = ${compteur} || reverseCompteur = ${reverseCompteur}`);
     }).catch(error => console.log(error));
 }
 
