@@ -1,24 +1,24 @@
 # FFXIVLogParser
 Make plots of FFXIV raid prog
 
-![Result of running this project on my TEA prog](/Examples/TEA_prog.png "TEA Prog")
+![Result of running the Python version of this project on my TEA prog](/Examples/TEA_prog.png "TEA Prog")
 
 ## Requirements:
-- Python 3 (maybe less? idk am not a python boi)
-- [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) (might be able to do without but me lazy)
-- [matplotlib](https://matplotlib.org/) because graph yeah
-- Maybe other stuff I already had installed and didn't make my life a pain as I tried to access it there
+- Just a browser I think ?
 
 ## Usage:
-Get the requirements right, edit [this file](graph.py) with the folder where your logs are[^1] and which fight you want to graph[^2]. Then run that same file. After some hardcore parsing (can be _long_ if the folder is big) the graph should show up.
-This will probably only work properly if all your logs on a fight were done with your game in english as the phase splitting is based on the various bosses' names. Might improve on that someday, maybe not. Until then you can edit the bosses' names in [this file](graph.py) to match your language or any in game change (Nael's name got its "deus" uncapitalized when Endwalker came out for some reason).
+Select your log files and then press the process button. This can take a while depending on your machine (everything runs locally), but you will end up with a graph similar to what you can see above.
 
 ## Dafuk iz dis
 I rewrote a simplified (and hopefully somewhat expendable) parsing based on the description of what a log contained I found [here](https://github.com/quisquous/cactbot/blob/main/docs/LogGuide.md).
-Then using ~~my immense Python knowledge~~ Google I plotted the pull data in a way that reflects fight progression nicely.
+Then using ~~my immense JavaScript knowledge~~ Google I plotted the pull data in a way that reflects fight progression nicely.
 
-I'm aware that the code is probably not very idiomatic or clever, but it works for my use. One obvious improvement I think about is making it so one can use the tool without having to edit a file, with command line arguments to chose which fight to plot.
+This tool used to be written in Python, but it made it not very usable for the average raider. So I rewrote it in JavaScript to make it availbable globally (even if some languages are not supported, yet).
 
-[^1]: just edit the `logFolder` variable
+I am now aware that FFLogs has a similar feature, but I don't think it existed back when I started. I also think the readability is very poor, and you have to upload your logs under a static's name to have access to it.
 
-[^2]: If you fight is in the preset variables, you can use those in the `create_graph()` call at the bottom, else you will need to fill en Encounter objet from scratch.
+## Known issues
+* Some of the triggers for TOP's phases are a bit wonky, but aside from being a few seconds off they should work properly.
+* TOP is missing some Japanese translation for phase triggers.
+* Language other than English, French, Japanese, Korean and Chinese are not supported for phases. The graph should still appear in all phase 1.
+* Must read uncompressed .log files, which can add up to some serious disk space.

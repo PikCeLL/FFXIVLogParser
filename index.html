@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>FFXIV LogParser</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="Graph.js"></script>
+  <style type="text/css">
+    label {
+      padding-right: 10px;
+      font-size: 1rem;
+      font-family: system-ui;
+    }
+  </style>
+</head>
+
+<body>
+  <p><label>Fight :
+      <select name="selector" id="fights">
+        <option value="ucob">UCoB</option>
+        <option value="uwu">UWU</option>
+        <option value="tea">TEA</option>
+        <option value="dsr">DSR</option>
+        <option value="top">TOP</option>
+      </select></label>
+    <label>Processed files : <progress id="progressBar" aria-label="Building graph..." max="1" value="0"> 0 </progress></label>
+  </p>
+  <input type="file" id="input" multiple />
+  <button type="button" id="button">
+    Process Files
+  </button>
+  <br><br>
+  <div aria-busy="true" aria-describedby="progressBar">
+    <canvas id="myChart"></canvas>
+  </div>
+</body>
+<footer>
+  <p>
+    More info <a href="https://github.com/PikCeLL/FFXIVLogParser" title="This project's GitHub repo">here</a>!
+  </p>
+</footer>
+</html>
