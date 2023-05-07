@@ -2,47 +2,53 @@ import * as netEvt from "./NetworkLineEvent.js";
 
 "use strict";
 
+const BOSS_NAME_PHASE = 'b';
+const EFFECT_GAINED_PHASE = 'g';
+const EFFECT_LOST_PHASE = 'l';
+const ABILITY_PHASE = 'a';
+
 /* ====ULTIMATES==== */
 export const UCoB = ['UCoB',
                      '80037569',
-                     [["Twintania", "Gémellia", "ツインタニア", "双塔尼亚", "트윈타니아"],
-                      ["Nael Deus Darnus", "ネール・デウス・ダーナス", "奈尔·神·达纳斯", "넬 데우스 다르누스"],
-                      ["Bahamut Prime", "Primo-Bahamut", "バハムート・プライム", "至尊巴哈姆特", "바하무트 프라임"],
-                      ["Twintania", "Gémellia", "ツインタニア", "双塔尼亚", "트윈타니아"],
-                      ["Bahamut Prime", "Primo-Bahamut", "バハムート・プライム", "至尊巴哈姆特", "바하무트 프라임"]],
+                     [[BOSS_NAME_PHASE, "Twintania", "Gémellia", "ツインタニア", "双塔尼亚", "트윈타니아"],
+                      [BOSS_NAME_PHASE, "Nael Deus Darnus", "ネール・デウス・ダーナス", "奈尔·神·达纳斯", "넬 데우스 다르누스"],
+                      [BOSS_NAME_PHASE, "Bahamut Prime", "Primo-Bahamut", "バハムート・プライム", "至尊巴哈姆特", "바하무트 프라임"],
+                      [BOSS_NAME_PHASE, "Twintania", "Gémellia", "ツインタニア", "双塔尼亚", "트윈타니아"],
+                      [BOSS_NAME_PHASE, "Bahamut Prime", "Primo-Bahamut", "バハムート・プライム", "至尊巴哈姆特", "바하무트 프라임"]],
                      ["Twin", "Nael", "Trios", "Adds", "Golden"]];
 export const UwU = ['UWU',
                     '80037573',
-                    [["Garuda", "ガルーダ", "迦楼罗", "가루다"],
-                     ["Ifrit", "イフリート", "伊弗利特", "이프리트"],
-                     ["Titan", "タイタン", "泰坦", "타이탄"],
-                     ["The Ultima Weapon", "Ultima Arma", "アルテマウェポン", "究极神兵", "알테마 웨폰"]],
+                    [[BOSS_NAME_PHASE, "Garuda", "ガルーダ", "迦楼罗", "가루다"],
+                     [BOSS_NAME_PHASE, "Ifrit", "イフリート", "伊弗利特", "이프리트"],
+                     [BOSS_NAME_PHASE, "Titan", "タイタン", "泰坦", "타이탄"],
+                     [BOSS_NAME_PHASE, "The Ultima Weapon", "Ultima Arma", "アルテマウェポン", "究极神兵", "알테마 웨폰"]],
                     ["Garuda", "Ifrit", "Titan", "Ultima"]];
 export const TEA = ['TEA',
                     '80037586',
-                    [["Living Liquid", "Liquide Vivant", "リビングリキッド", "有生命活水", "살아있는 액체"],
-                     ["Cruise Chaser", "Croiseur-chasseur", "クルーズチェイサー", "巡航驱逐者", "순항추격기"],
-                     ["Alexander Prime", "Primo-Alexander", "アレキサンダー・プライム", "至尊亚历山大", "알렉산더 프라임"],
-                     ["Perfect Alexander", "Alexander parfait", "パーフェクト・アレキサンダー", "完美亚历山大", "완전체 알렉산더"]],
+                    [[BOSS_NAME_PHASE, "Living Liquid", "Liquide Vivant", "リビングリキッド", "有生命活水", "살아있는 액체"],
+                     [BOSS_NAME_PHASE, "Cruise Chaser", "Croiseur-chasseur", "クルーズチェイサー", "巡航驱逐者", "순항추격기"],
+                     [BOSS_NAME_PHASE, "Alexander Prime", "Primo-Alexander", "アレキサンダー・プライム", "至尊亚历山大", "알렉산더 프라임"],
+                     [BOSS_NAME_PHASE, "Perfect Alexander", "Alexander parfait", "パーフェクト・アレキサンダー", "完美亚历山大", "완전체 알렉산더"]],
                     ["LL", "BJCC", "Prime", "Perfect"]];
 export const DSR = ['DSR',
                     '8003759A',
-                    [["King Thordan", "Roi Thordan", "騎神トールダン", "骑神托尔丹", "기사신 토르당"],
-                     ["Nidhogg", "ニーズヘッグ", "尼德霍格", "니드호그"],
-                     ["Right Eye", "œil droit de Nidhogg", "邪竜の右眼", "邪龙的右眼", "사룡의 오른눈"],
-                     ["Ser Charibert", "Sire Charibert", "聖騎士シャリベル", "圣骑士沙里贝尔", "성기사 샤리베르"],
-                     ["King Thordan", "Roi Thordan", "騎神トールダン", "骑神托尔丹", "기사신 토르당"],
-                     ["Hraesvelgr", "フレースヴェルグ", "赫拉斯瓦尔格", "흐레스벨그"],
-                     ["Dragon-king Thordan", "Thordan le Dieu Dragon", "騎竜神トールダン", "龙威骑神托尔丹", "기룡신 토르당"]],
+                    [[BOSS_NAME_PHASE, "King Thordan", "Roi Thordan", "騎神トールダン", "骑神托尔丹", "기사신 토르당"],
+                     [BOSS_NAME_PHASE, "Nidhogg", "ニーズヘッグ", "尼德霍格", "니드호그"],
+                     [BOSS_NAME_PHASE, "Right Eye", "œil droit de Nidhogg", "邪竜の右眼", "邪龙的右眼", "사룡의 오른눈"],
+                     [BOSS_NAME_PHASE, "Ser Charibert", "Sire Charibert", "聖騎士シャリベル", "圣骑士沙里贝尔", "성기사 샤리베르"],
+                     [BOSS_NAME_PHASE, "King Thordan", "Roi Thordan", "騎神トールダン", "骑神托尔丹", "기사신 토르당"],
+                     [BOSS_NAME_PHASE, "Hraesvelgr", "フレースヴェルグ", "赫拉斯瓦尔格", "흐레스벨그"],
+                     [BOSS_NAME_PHASE, "Dragon-king Thordan", "Thordan le Dieu Dragon", "騎竜神トールダン", "龙威骑神托尔丹", "기룡신 토르당"]],
                     ["King Thordan", "Nidhogg", "Eyes", "Rewind!", "King Thordan II", "Dragons", "The Dragon King"]];
 export const TOP = ['TOP',
                     '800375AC',
-                    [["Omega", "Oméga", "オメガ"],
-                     ["Omega-M", "Oméga-M", "オメガM"],
-                     ["Omega", "Oméga", "オメガ"],
-                     ["Omega-M", "Oméga-M", "オメガM"],
-                     ["Alpha Omega", "Alpha Oméga", "アルファオメガ"]],
-                    ["Omega", "M/F", "Reconfigured + Blue Screen", "Dynamis", "Alpha"]];
+                    [[BOSS_NAME_PHASE, "Omega", "Oméga", "オメガ"],
+                     [EFFECT_GAINED_PHASE, "Omega-M", "Oméga-M", "オメガM"], // The bosses are still named Omega in the log, but gain a M/F buff
+                     [ABILITY_PHASE, "Colossal Blow", "Coup colossal"], // Happens somewhere during the transition, from an arm
+                     [ABILITY_PHASE, "Wave Cannon", "Canon plasma"], // First cast after getting back up, still a few seconds late, might need another trigger
+                     [BOSS_NAME_PHASE, "Omega-M", "Oméga-M", "オメガM"],
+                     [BOSS_NAME_PHASE, "Alpha-Omega", "Alpha-Oméga", "アルファオメガ"]],
+                    ["Omega", "M/F", "Reconfigured", "Blue Screen", "Dynamis", "Alpha"]];
 
 
 export class PhasedPullProcessor {
@@ -105,9 +111,36 @@ export class PhasedPullProcessor {
      * @param {netEvt.NetworkLineEvent} event 
      */
     processEvent(event) {
-        if (this.#currentPull != null && event.type === netEvt.EventType.ABILITY && event.isSourcePlayer()) {
-            if (this.#encounter[2].length > this.#currentPull[2] + 1 && this.#encounter[2][this.#currentPull[2] + 1].some(s => s.toLowerCase() == event.target.toLowerCase())) {
-                ++this.#currentPull[2];
+        if (this.#currentPull != null && this.#encounter[2].length > this.#currentPull[2] + 1) {
+            switch (this.#encounter[2][this.#currentPull[2] + 1][0]) {
+                case ABILITY_PHASE:
+                    if (event.type === netEvt.EventType.ABILITY && !event.isSourcePlayer()) {
+                        if (this.#encounter[2][this.#currentPull[2] + 1].some(s => s.toLowerCase() == event.name.toLowerCase())) {
+                            ++this.#currentPull[2];
+                        }
+                    }
+                    break;
+                case EFFECT_GAINED_PHASE:
+                    if (event.type === netEvt.EventType.EFFECT_GAINED && !event.isSourcePlayer() && !event.isTargetPlayer()) {
+                        if (this.#encounter[2][this.#currentPull[2] + 1].some(s => s.toLowerCase() == event.name.toLowerCase())) {
+                            ++this.#currentPull[2];
+                        }
+                    }
+                    break
+                case EFFECT_LOST_PHASE:
+                    if (event.type === netEvt.EventType.EFFECT_LOST && !event.isSourcePlayer() && !event.isTargetPlayer()) {
+                        if (this.#encounter[2][this.#currentPull[2] + 1].some(s => s.toLowerCase() == event.name.toLowerCase())) {
+                            ++this.#currentPull[2];
+                        }
+                    }
+                    break;
+                case BOSS_NAME_PHASE:
+                default:
+                    if (event.type === netEvt.EventType.ABILITY && event.isSourcePlayer()) {
+                        if (this.#encounter[2][this.#currentPull[2] + 1].some(s => s.toLowerCase() == event.target.toLowerCase())) {
+                            ++this.#currentPull[2];
+                        }
+                    }
             }
         }
     }

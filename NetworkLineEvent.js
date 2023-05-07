@@ -87,11 +87,12 @@ const EffectLostEventIndexes = Object.freeze({
 	TIMESTAMP: 1,
 	EFFECT_ID: 2,
 	EFFECT: 3,
-    SOURCE_ID: 4,
-    SOURCE: 5,
-    TARGET_ID: 6,
-    TARGET: 7,
-    COUNT: 8
+    DURATION: 4,
+    SOURCE_ID: 5,
+    SOURCE: 6,
+    TARGET_ID: 7,
+    TARGET: 8,
+    COUNT: 9
 })
 
 const StartCastingEventIndexes = Object.freeze({
@@ -157,10 +158,10 @@ export class NetworkLineEvent {
                 // Effect Gained
                 this.#type = EventType.EFFECT_GAINED;
                 const splitLine = line.split('|');
-                this.#source = splitLine[AbilityEventIndexes.SOURCE];
-                this.#sourceId = splitLine[AbilityEventIndexes.SOURCE_ID];
-                this.#target = splitLine[AbilityEventIndexes.TARGET];
-                this.#targetId = splitLine[AbilityEventIndexes.TARGET_ID];
+                this.#source = splitLine[EffectGainedEventIndexes.SOURCE];
+                this.#sourceId = splitLine[EffectGainedEventIndexes.SOURCE_ID];
+                this.#target = splitLine[EffectGainedEventIndexes.TARGET];
+                this.#targetId = splitLine[EffectGainedEventIndexes.TARGET_ID];
                 this.#name = splitLine[EffectGainedEventIndexes.EFFECT];
                 this.#timestamp = new Date(splitLine[EffectGainedEventIndexes.TIMESTAMP]);
             }
@@ -169,10 +170,10 @@ export class NetworkLineEvent {
                 // Effect Lost
                 this.#type = EventType.EFFECT_LOST;
                 const splitLine = line.split('|');
-                this.#source = splitLine[AbilityEventIndexes.SOURCE];
-                this.#sourceId = splitLine[AbilityEventIndexes.SOURCE_ID];
-                this.#target = splitLine[AbilityEventIndexes.TARGET];
-                this.#targetId = splitLine[AbilityEventIndexes.TARGET_ID];
+                this.#source = splitLine[EffectLostEventIndexes.SOURCE];
+                this.#sourceId = splitLine[EffectLostEventIndexes.SOURCE_ID];
+                this.#target = splitLine[EffectLostEventIndexes.TARGET];
+                this.#targetId = splitLine[EffectLostEventIndexes.TARGET_ID];
                 this.#name = splitLine[EffectLostEventIndexes.EFFECT];
                 this.#timestamp = new Date(splitLine[EffectLostEventIndexes.TIMESTAMP]);
             }
@@ -181,10 +182,10 @@ export class NetworkLineEvent {
                 // Start Cast
                 this.#type = EventType.START_CASTING;
                 const splitLine = line.split('|');
-                this.#source = splitLine[AbilityEventIndexes.SOURCE];
-                this.#sourceId = splitLine[AbilityEventIndexes.SOURCE_ID];
-                this.#target = splitLine[AbilityEventIndexes.TARGET];
-                this.#targetId = splitLine[AbilityEventIndexes.TARGET_ID];
+                this.#source = splitLine[StartCastingEventIndexes.SOURCE];
+                this.#sourceId = splitLine[StartCastingEventIndexes.SOURCE_ID];
+                this.#target = splitLine[StartCastingEventIndexes.TARGET];
+                this.#targetId = splitLine[StartCastingEventIndexes.TARGET_ID];
                 this.#name = splitLine[StartCastingEventIndexes.ABILITY];
                 this.#timestamp = new Date(splitLine[StartCastingEventIndexes.TIMESTAMP]);
             }
@@ -193,10 +194,10 @@ export class NetworkLineEvent {
                 // Death
                 this.#type = EventType.DEATH;
                 const splitLine = line.split('|');
-                this.#source = splitLine[AbilityEventIndexes.SOURCE];
-                this.#sourceId = splitLine[AbilityEventIndexes.SOURCE_ID];
-                this.#target = splitLine[AbilityEventIndexes.TARGET];
-                this.#targetId = splitLine[AbilityEventIndexes.TARGET_ID];
+                this.#source = splitLine[DeathEventIndexes.SOURCE];
+                this.#sourceId = splitLine[DeathEventIndexes.SOURCE_ID];
+                this.#target = splitLine[DeathEventIndexes.TARGET];
+                this.#targetId = splitLine[DeathEventIndexes.TARGET_ID];
                 this.#timestamp = new Date(splitLine[DeathEventIndexes.TIMESTAMP]);
             }
             break;
@@ -248,5 +249,14 @@ export class NetworkLineEvent {
 
     isAoE() {
         return this.#targetId == "E0000000";
+    }
+
+    toString() {
+        return "SOURCE = " + this.#source + "\n" +
+            "SOURCEID = " + this.#sourceId + "\n" +
+            "TARGET = " + this.#target + "\n" +
+            "TARGETID = " + this.#targetId + "\n" +
+            "NAME = " + this.#name + "\n" + 
+            "TIMESTAMP = " + this.#timestamp + "\n"
     }
 }

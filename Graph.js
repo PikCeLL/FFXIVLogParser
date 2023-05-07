@@ -62,7 +62,7 @@ function handleFiles() {
             encounter = enc.TOP;
             break;
         default:
-            console.log(`${fightValue} doesn't exist!`);
+            console.log(`${fightValue} doesn't exist! (yet?)`);
     }
 
     document.getElementById('progressBar').max = inputFiles.files.length;
@@ -78,7 +78,7 @@ function handleFiles() {
         let combatTime = 0;
         result.forEach(log => {
             log.forEach(pull => {
-                results[pull[2]].data.push({ x: index, y: pull[1] / 60000, tooltip: pull[0] });
+                results[pull[2]].data.push({ x: index + 1, y: pull[1] / 60000, tooltip: pull[0] });
                 combatTime += pull[1];
                 ++index;
             });
