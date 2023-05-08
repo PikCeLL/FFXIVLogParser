@@ -1,10 +1,33 @@
 import * as reader from "./LogReader.js";
 import * as enc from "./Encounters.js";
+import 'https://cdn.jsdelivr.net/npm/chart.js';
 
 "use strict";
 
 const inputElement = document.getElementById("button");
 inputElement.addEventListener("click", handleFiles);
+
+// Code fron the Colors Chart.js plugin, just with different colors for better readability. 7 colors generated wth https://mokole.com/palette.html
+const BORDER_COLORS = [
+    'rgb(128, 128, 0)', // olive
+    'rgb(0, 0, 255)', // blue
+    'rgb(255, 0, 0)', // red
+    'rgb(0, 255, 255)', // aqua
+    'rgb(199, 21, 133)', // mediumvioletred
+    'rgb(0, 255, 0)', // lime
+    'rgb(30, 144, 255)' // dodgerblue
+  ];
+  
+  // Border colors with 50% transparency
+  const BACKGROUND_COLORS = /* #__PURE__ */ BORDER_COLORS.map(color => color.replace('rgb(', 'rgba(').replace(')', ', 0.5)'));
+  
+  function getBorderColor(i) {
+    return BORDER_COLORS[i % BORDER_COLORS.length];
+  }
+  
+  function getBackgroundColor(i) {
+    return BACKGROUND_COLORS[i % BACKGROUND_COLORS.length];
+  }
 
 const ctx = document.getElementById('myChart');
 const chart = new Chart(ctx, {
@@ -71,7 +94,13 @@ function handleFiles() {
     readNextFile(encounter, inputFiles.files, 0, []).then(result => {
         const results = new Array(encounter[3].length);
         for (let i = 0; i < results.length; i++) {
-            results[i] = { label: encounter[3][i], data: [], parsing: false };
+            results[i] = {
+                label: encounter[3][i],
+                data: [],
+                parsing: false,
+                borderColor: getBorderColor(i),
+                backgroundColor: getBackgroundColor(i)
+            };
         }
 
         let index = 0;
