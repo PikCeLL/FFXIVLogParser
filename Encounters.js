@@ -49,6 +49,11 @@ export const TOP = ['TOP',
                      [BOSS_NAME_PHASE, "Omega-M", "Oméga-M", "オメガM"],
                      [BOSS_NAME_PHASE, "Alpha-Omega", "Alpha-Oméga", "アルファオメガ"]],
                     ["Omega", "M/F", "Reconfigured", "Blue Screen", "Dynamis", "Alpha"]];
+export const FRU = ['FRU',
+                    '800375BF',
+                    [[BOSS_NAME_PHASE, "Fatebreaker"],
+                     [BOSS_NAME_PHASE, "Usurper of Frost"]],
+                    ["Fatebreaker", "Shiva"]];
 
 
 export class PhasedPullProcessor {
