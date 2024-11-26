@@ -84,6 +84,9 @@ function handleFiles() {
         case "top":
             encounter = enc.TOP;
             break;
+        case "fru":
+            encounter = enc.FRU;
+            break;
         default:
             console.log(`${fightValue} doesn't exist! (yet?)`);
     }
