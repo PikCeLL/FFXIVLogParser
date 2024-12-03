@@ -51,9 +51,12 @@ export const TOP = ['TOP',
                     ["Omega", "M/F", "Reconfigured", "Blue Screen", "Dynamis", "Alpha"]];
 export const FRU = ['FRU',
                     '800375BF',
-                    [[BOSS_NAME_PHASE, "Fatebreaker"],
-                     [BOSS_NAME_PHASE, "Usurper of Frost"]],
-                    ["Fatebreaker", "Shiva"]];
+                    [[BOSS_NAME_PHASE, "Fatebreaker", "フェイトブレイカー"],
+                     [BOSS_NAME_PHASE, "Usurper of Frost", "シヴァ・ミトロン"],
+                     [BOSS_NAME_PHASE, "Oracle of Darkness", "闇の巫女"],
+                     [BOSS_NAME_PHASE, "Usurper of Frost", "シヴァ・ミトロン"],
+                     [BOSS_NAME_PHASE, "Pandora", "パンドラ・ミトロン"]],
+                    ["Fatebreaker", "Usurper of Frost", "Oracle of Darkness", "Enter the Dragon", "Pandora"]];
 
 
 export class PhasedPullProcessor {
