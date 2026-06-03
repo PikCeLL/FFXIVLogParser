@@ -58,6 +58,13 @@ export const FRU = ['FRU',
                      [BOSS_NAME_PHASE, "Pandora", "パンドラ・ミトロン"]],
                     ["Fatebreaker", "Usurper of Frost", "Oracle of Darkness", "Enter the Dragon", "Pandora"]];
 
+export const FRU = ['UMAD',
+                    '800375D2',
+                    [[BOSS_NAME_PHASE, "Kefka"],
+                     [ABILITY_PHASE, "Ultimate Embrace"],
+                     [BOSS_NAME_PHASE, "Chaos"]],
+                    ["Kefka", "God Kefka", "Chaos Exdeath"]];
+
 
 export class PhasedPullProcessor {
     // currentPull is an array containing, in this order : Start Time, Pull Duration, Phase # and Cleared Status
