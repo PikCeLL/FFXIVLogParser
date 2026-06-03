@@ -58,7 +58,7 @@ export const FRU = ['FRU',
                      [BOSS_NAME_PHASE, "Pandora", "パンドラ・ミトロン"]],
                     ["Fatebreaker", "Usurper of Frost", "Oracle of Darkness", "Enter the Dragon", "Pandora"]];
 
-export const FRU = ['UMAD',
+export const UMAD = ['UMAD',
                     '800375D2',
                     [[BOSS_NAME_PHASE, "Kefka"],
                      [ABILITY_PHASE, "Ultimate Embrace"],
